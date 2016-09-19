@@ -28,8 +28,9 @@ namespace EasyRedisMQ.Consumer
 
             //This uses the same Subscriber ID as EasyRedisMQ.Consumer.
             //These two applications will share the same queue and messages will be divided between the 2.
-            var subscriber = messageBroker.SubscribeAsync<String>("EasyRedisMQ.Consumer", async x => { await WriteConsoleMessageAsync(x); });
-            
+            //var subscriber = messageBroker.SubscribeAsync<String>("EasyRedisMQ.Consumer", async x => { await WriteConsoleMessageAsync(x); });
+            var subscriber = messageBroker.SubscribeAsync<TestClass>("EasyRedisMQ.Consumer", async x => { await WriteConsoleMessageAsync(x.I.ToString()); });
+
             Console.WriteLine("EasyRedisMQ.Consumer is listening for messages. Ctrl+C to quit.");
             while(true)
             {

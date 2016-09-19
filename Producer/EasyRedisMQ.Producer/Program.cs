@@ -4,6 +4,7 @@ using StructureMap;
 using StructureMap.Graph;
 using System;
 using System.Diagnostics;
+using EasyRedisMQ.Consumer;
 using Jil;
 using Newtonsoft.Json;
 
@@ -33,7 +34,7 @@ namespace EasyRedisMQ.Producer
             var messageBroker = container.GetInstance<IMessageBroker>();
 
             var stopWatch = new Stopwatch();
-            int numberOfMessagesToPublish = 10000;
+            int numberOfMessagesToPublish = 10;
             stopWatch.Start();
             
             for(int x = 0; x <= numberOfMessagesToPublish; x++)
@@ -43,6 +44,7 @@ namespace EasyRedisMQ.Producer
                     JsonConvert.SerializeObject(clientDisconnected));
 
                 messageBroker.PublishAsync<string>(JsonConvert.SerializeObject(message)).Wait();
+                //messageBroker.PublishAsync<TestClass>(new TestClass(x)).Wait();
             }
             stopWatch.Stop();
             Console.WriteLine("Published {0} messages in {1} seconds. {2} messages per second.", numberOfMessagesToPublish, stopWatch.Elapsed.TotalSeconds, numberOfMessagesToPublish / stopWatch.Elapsed.TotalSeconds);
